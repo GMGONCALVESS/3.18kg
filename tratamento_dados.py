@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, text
+import pandas as pd
 
 
 def tratar(item):
@@ -22,6 +23,7 @@ def tratar(item):
         emissor = item.get('emissor')
         referencia_ntnb = item.get('referencia_ntnb')
 
+        # print(percentual_taxa)
         if '+' in percentual_taxa:
             x = percentual_taxa.split('+')
             indexador = x[0]
@@ -33,6 +35,8 @@ def tratar(item):
         else:
             indexador = percentual_taxa
             taxa_emissao = None
+        # print(indexador)
+        # print(taxa_emissao)
         try:
             y = data_finalizado.split('T')
             data_finalizado = y[0]
@@ -41,22 +45,22 @@ def tratar(item):
             data_finalizado = None
             hora_finalizado = None
 
-        # Query para insertar dados na tabela
-        insert_query = text("""
-        INSERT INTO dados_debenture (
-            grupo, codigo, data_referencia, data_vencimento, 
-            indexador, taxa_emissao, taxa_compra, taxa_venda, taxa_indicativa, 
-            desvio_padrao, val_min, val_max, pu, pu_par, 
-            duration, percent_renue, data_fim, hora_fim, emissor, referencia_ntnb
-        ) 
-        VALUES (
-            :grupo, :codigo_ativo, :data_referencia, :data_vencimento, 
-            :indexador, :taxa_emissao, :taxa_compra, :taxa_venda, :taxa_indicativa, 
-            :desvio_padrao, :val_min_intervalo, :val_max_intervalo, :pu, :percent_pu_par, 
-            :duration, :percent_reune, :data_finalizado, :hora_finalizado, :emissor, :referencia_ntnb
-        ) 
-        ON CONFLICT (codigo, data_referencia) DO NOTHING;
-    """)
+    #     # Query para insertar dados na tabela
+    #     insert_query = text("""
+    #     INSERT INTO dados_debenture (
+    #         grupo, codigo, data_referencia, data_vencimento,
+    #         indexador, taxa_emissao, taxa_compra, taxa_venda, taxa_indicativa,
+    #         desvio_padrao, val_min, val_max, pu, pu_par,
+    #         duration, percent_renue, data_fim, hora_fim, emissor, referencia_ntnb
+    #     )
+    #     VALUES (
+    #         :grupo, :codigo_ativo, :data_referencia, :data_vencimento,
+    #         :indexador, :taxa_emissao, :taxa_compra, :taxa_venda, :taxa_indicativa,
+    #         :desvio_padrao, :val_min_intervalo, :val_max_intervalo, :pu, :percent_pu_par,
+    #         :duration, :percent_reune, :data_finalizado, :hora_finalizado, :emissor, :referencia_ntnb
+    #     )
+    #     ON CONFLICT (codigo, data_referencia) DO NOTHING;
+    # """)
 
         # print(insert_query)
 
@@ -64,7 +68,6 @@ def tratar(item):
                   "codigo_ativo": codigo_ativo,
                   "data_referencia": data_referencia,
                   "data_vencimento": data_vencimento,
-                  "percentual_taxa": percentual_taxa,
                   "indexador": indexador,
                   "taxa_emissao": taxa_emissao,
                   "taxa_compra": taxa_compra,
@@ -81,8 +84,12 @@ def tratar(item):
                   "hora_finalizado": hora_finalizado,
                   "emissor": emissor,
                   "referencia_ntnb": referencia_ntnb}
+        params = pd.DataFrame([params])
+
+        # print(params)
+
     except Exception as e:
         print(item)
         raise e
 
-    return insert_query, params
+    return params
