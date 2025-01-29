@@ -3,7 +3,7 @@ from base64 import b64encode
 import requests
 
 
-def conexao():
+def conexao(data):
     client_id = 'uHpXjsZAi49A'
     client_secret = '2tZrvxqLYZ1N'
 
@@ -33,10 +33,15 @@ def conexao():
         'client_id': client_id
     }
 
+    parameters = {
+        'data': f'{data}'
+    }
+
     data_url = 'https://api.anbima.com.br/feed/precos-indices/v1/debentures/mercado-secundario'
 
     try:
-        data_response = requests.get(data_url, headers=headers)
+        data_response = requests.get(
+            data_url, headers=headers, params=parameters)
     except:
         print("Acesso negado à API")
 

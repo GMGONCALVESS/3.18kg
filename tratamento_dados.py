@@ -52,7 +52,8 @@ def tratar(item):
             :indexador, :taxa_emissao, :taxa_compra, :taxa_venda, :taxa_indicativa, 
             :desvio_padrao, :val_min_intervalo, :val_max_intervalo, :pu, :percent_pu_par, 
             :duration, :percent_reune, :data_finalizado, :hora_finalizado, :emissor, :referencia_ntnb
-        )
+        ) 
+        ON CONFLICT (codigo, data_referencia) DO NOTHING;
     """)
 
         params = {"grupo": grupo,
