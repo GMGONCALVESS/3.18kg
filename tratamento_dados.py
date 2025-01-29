@@ -33,11 +33,13 @@ def tratar(item):
         else:
             indexador = percentual_taxa
             taxa_emissao = None
-
-        y = data_finalizado.split('T')
-
-        data_finalizado = y[0]
-        hora_finalizado = y[1]
+        try:
+            y = data_finalizado.split('T')
+            data_finalizado = y[0]
+            hora_finalizado = y[1]
+        except:
+            data_finalizado = None
+            hora_finalizado = None
 
         # Query para insertar dados na tabela
         insert_query = text("""
@@ -55,6 +57,8 @@ def tratar(item):
         ) 
         ON CONFLICT (codigo, data_referencia) DO NOTHING;
     """)
+
+        # print(insert_query)
 
         params = {"grupo": grupo,
                   "codigo_ativo": codigo_ativo,
@@ -77,7 +81,8 @@ def tratar(item):
                   "hora_finalizado": hora_finalizado,
                   "emissor": emissor,
                   "referencia_ntnb": referencia_ntnb}
-    except:
+    except Exception as e:
         print(item)
+        raise e
 
     return insert_query, params

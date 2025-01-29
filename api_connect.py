@@ -3,7 +3,7 @@ from base64 import b64encode
 import requests
 
 
-def conexao(data):
+def conexao_func(data):
     client_id = 'uHpXjsZAi49A'
     client_secret = '2tZrvxqLYZ1N'
 
