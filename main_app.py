@@ -12,14 +12,15 @@ import pandas as pd
 engine = create_engine(
     'postgresql://postgres:admin@192.168.88.61:5432/yield_debentures')
 
-anos = list(range(2019, 2020))
+anos = list(range(2025, 2026))
 resultado = pd.DataFrame()
 
 for ano in anos:
     data = cria_calendario(ano)
 
     # print(data)
-    data_filtrada = data[(data >= "2019-09-01") & (data <= "2019-12-31")]
+    # data[(data >= "2025-01-01") & (data <= "2025-01-28")]
+    data_filtrada = data[data == "2025-01-29"]
 
     # print(data_filtrada)
 
@@ -38,7 +39,7 @@ for ano in anos:
             dataframe = tratar(item)
 
             resultado = pd.concat([resultado, dataframe], ignore_index=False)
-
+    # print(resultado)
     resultado.to_sql(name="dados_debenture", con=engine,
                      if_exists="append", index=False)
 
