@@ -6,14 +6,15 @@ para o próximo dia. Sobe os dados para bd, e considera feriados e finais de sem
 
 from auto_tratamento import tratar
 from auto_verificar import verificar
+from auto_api import conexao_func
+from auto_dias import cria_calendario
 from datetime import datetime
 from sqlalchemy import create_engine, text
-from auto_api import conexao_func
-from dias_uteis import cria_calendario
 import time
 import csv
 import json
 import pandas as pd
+
 
 # Cria conexão com o banco de dados
 engine = create_engine(
