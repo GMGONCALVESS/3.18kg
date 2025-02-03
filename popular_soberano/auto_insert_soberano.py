@@ -35,6 +35,7 @@ datas = data = cria_calendario(ano_atual)
 
 # print(datas)
 
+
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
 
 # data_atual = "2025-01-29"
