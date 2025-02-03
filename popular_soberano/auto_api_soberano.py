@@ -37,7 +37,7 @@ def conexao_func(data):
         'data': f'{data}'
     }
 
-    data_url = 'https://api.anbima.com.br/feed/precos-indices/v1/debentures/mercado-secundario'
+    data_url = 'https://api.anbima.com.br/feed/precos-indices/v1/titulos-publicos/curvas-juros'
 
     try:
         data_response = requests.get(

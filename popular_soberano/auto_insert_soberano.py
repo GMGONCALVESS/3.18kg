@@ -4,10 +4,10 @@ para de enviar requisições, e mantém-se em 'sleep' durante 24 horas, para ini
 para o próximo dia. Sobe os dados para bd, e considera feriados e finais de semana para não exaurir o processamento
 """
 
-from auto_tratamento import tratar
-from auto_verificar import verificar
-from auto_api import conexao_func
-from auto_dias import cria_calendario
+from auto_tratamento_soberano import tratar
+from auto_verificar_soberano import verificar
+from auto_api_soberano import conexao_func
+from auto_dias_soberano import cria_calendario
 from datetime import datetime
 from sqlalchemy import create_engine, text
 import time
@@ -31,43 +31,49 @@ dia_atual = int(dia_atual)
 
 # print(ano_atual, mes_atual, dia_atual)
 
-datas = data = cria_calendario(ano_atual)
+anos = list(range(2018, 2026))
 
-# print(datas)
+for ano in anos:
+    ano_atual = ano
+    datas = data = cria_calendario(ano_atual)
 
+    # print(datas)
 
-datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
+    data[(data >= "2018-01-01") & (data <= "2025-01-28")]
 
-# data_atual = "2025-01-29"
+    datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
 
-# print(datas_apenas)
+    data_atual = "2025-01-"
 
-# Se a data atual estiver na lista de dias uteis
-if data_atual in datas_uteis:
+    # print(datas_uteis)
 
-    # verificar se já foi atualizado o dia
-    dados = conexao_func(data_atual)  # data_atual
-    print(dados)
+    # Se a data atual estiver na lista de dias uteis
+    if data_atual in datas_uteis:
 
-    if dados != None:
+        # verificar se já foi atualizado o dia
+        dados = conexao_func(data_atual)  # data_atual
+        # print(dados)
 
-        print("Dados recebidos")
-        inserir = verificar(engine, data_atual)
+        if dados != None:
 
-        if inserir:
+            print("Dados recebidos")
+            inserir = verificar(engine, data_atual)
 
-            print("O dado será inserido")
-            for item in dados:
-                resultado = tratar(item)
-                resultado.to_sql(name="copia_dados_debenture", con=engine,
-                                 if_exists="append", index=False)
+            if inserir:
 
+                print("O dado será inserido")
+                for item in dados:
+                    resultado = tratar(item, data_atual)
+                    # print(resultado)
+                    resultado.to_sql(name="curvas_juros", con=engine,
+                                     if_exists="append", index=False)
+
+            else:
+                print("O dado já foi inserido")
         else:
-            print("O dado já foi inserido")
+            print("Dados do dia não atualizados")
     else:
-        print("Dados do dia não atualizados")
-else:
-    # se não estiver, pusa o código por 24 horas
-    # ETAPA FEITA NO SCHEDULE
-    # time.sleep(24*60*60)
-    print("Não é dia útil")
+        # se não estiver, pusa o código por 24 horas
+        # ETAPA FEITA NO SCHEDULE
+        # time.sleep(24*60*60)
+        print("Não é dia útil")
