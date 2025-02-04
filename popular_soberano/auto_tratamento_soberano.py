@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, text
 import pandas as pd
 
 
-def tratar(item,data_atual):
+def tratar(item, data_atual):
     try:
         pd.set_option('display.max_rows', None)
         dados = pd.DataFrame(item['ettj'])
@@ -12,8 +12,8 @@ def tratar(item,data_atual):
         pre = []
         ipca = []
         implicita = []
-        dados_limpos = dados.dropna()
-        for index, row in dados_limpos.iterrows():
+        # dados_limpos = dados.dropna()
+        for index, row in dados.iterrows():
             maturity.append(row['vertice_du']/252)
             pre.append(row['taxa_prefixadas'])
             ipca.append(row['taxa_ipca'])

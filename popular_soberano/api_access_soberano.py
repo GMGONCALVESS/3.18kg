@@ -17,7 +17,7 @@ auth = base64.b64encode(auth_bytes).decode("ascii")
 auth_headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': f'Basic {auth}'
-    }
+}
 
 # Corpo da requisição de autenticação
 auth_data = {
@@ -31,8 +31,8 @@ auth_response = requests.post(auth_url, headers=auth_headers, data=auth_data)
 access_token = auth_response.json().get('access_token')
 
 headers = {
-            'access_token': access_token,
-          'client_id' : client_id
+    'access_token': access_token,
+    'client_id': client_id
 }
 
 parameters = {
@@ -41,12 +41,13 @@ parameters = {
 
 data_url = 'https://api.anbima.com.br/feed/precos-indices/v1/titulos-publicos/curvas-juros'
 
-data_response = requests.get(data_url, headers=headers,params=parameters)
+data_response = requests.get(data_url, headers=headers, params=parameters)
 
 if data_response.status_code == 200:
     data = data_response.json()
 else:
-    print(f"Erro ao obter os dados: {data_response.status_code} - {data_response.text}")
+    print(f"Erro ao obter os dados: {
+          data_response.status_code} - {data_response.text}")
 
 
 print(data[0]['data_referencia'])
@@ -58,8 +59,8 @@ maturity = []
 pre = []
 ipca = []
 implicita = []
-dados_limpos = dados.dropna()
-for index, row in dados_limpos.iterrows():
+# dados_limpos = dados.dropna()
+for index, row in dados.iterrows():
     maturity.append(row['vertice_du']/252)
     pre.append(row['taxa_prefixadas'])
     ipca.append(row['taxa_ipca'])
