@@ -37,7 +37,7 @@ datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
 
-# data_atual = "2025-02-03"
+data_atual = "2025-01-31"
 
 # print(datas_apenas)
 
@@ -58,9 +58,30 @@ if data_atual in datas_uteis:
             print("O dado será inserido")
             for item in dados:
                 resultado = tratar(item)
-                resultado.to_sql(name="dados_debenture", con=engine,
-                                 if_exists="append", index=False)
+            # with engine.connect() as conexao:
+            #     # for _, row in dados.iterrows():
+            #     for item in dados:
+            #         query = text("""
+            #             INSERT INTO pbi_plot_debentures (grupo, codigo_ativo, data_referencia, data_vencimento,
+            #                                     duration, indexador, taxa_emissao, taxa_indicativa, emissor)
+            #             VALUES (:grupo, :codigo_ativo, :data_referencia, :data_vencimento,
+            #                     :duration, :indexador, :taxa_emissao, :taxa_indicativa, :emissor);
+            #         """)
 
+            #         conexao.execute(query, {
+            #             "grupo": item["grupo"],
+            #             "codigo_ativo": item["codigo_ativo"],
+            #             "data_referencia": item["data_referencia"],
+            #             "data_vencimento": item["data_vencimento"],
+            #             "duration": item["duration"],
+            #             "indexador": item["indexador"],
+            #             "taxa_emissao": item["taxa_emissao"],
+            #             "taxa_indicativa": item["taxa_indicativa"],
+            #             "emissor": item["emissor"]
+            #         })
+
+            #     conexao.commit()
+                resultado.to_sql(name="dados_debenture", con=engine, if_exists="append", index=False)
         else:
             print("O dado já foi inserido")
     else:
