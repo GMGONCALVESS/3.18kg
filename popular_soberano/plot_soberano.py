@@ -11,7 +11,7 @@ import numpy as np
 # Cria conexão com o banco de dados
 engine = create_engine(
     'postgresql://postgres:admin@192.168.88.61:5432/yield_debentures')
-data = "2024-12-23"
+data = "2025-01-28"
 query = text(f"""SELECT maturity, pre, ipca, implicita FROM curvas_juros
              WHERE data_referencia = '{data}';""")
 

@@ -38,7 +38,7 @@ dia_atual = int(dia_atual)
 datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
-# data_atual = "2025-01-31"
+data_atual = "2025-02-03"
 # Se a data atual estiver na lista de dias uteis
 if data_atual in datas_uteis:
 # for data_atual in datas_uteis:
@@ -50,8 +50,8 @@ if data_atual in datas_uteis:
     if dados != None:
 
         print("Dados recebidos")
-        # inserir = verificar(engine, data_atual)
-        inserir = True
+        inserir = verificar(engine, data_atual)
+        # inserir = True
         if inserir:
 
             print("O dado será inserido")

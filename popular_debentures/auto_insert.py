@@ -37,7 +37,7 @@ datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
 
-# data_atual = "2025-01-29"
+# data_atual = "2025-02-03"
 
 # print(datas_apenas)
 
@@ -46,7 +46,7 @@ if data_atual in datas_uteis:
 
     # verificar se já foi atualizado o dia
     dados = conexao_func(data_atual)  # data_atual
-    print(dados)
+    # print(dados)
 
     if dados != None:
 
@@ -58,7 +58,7 @@ if data_atual in datas_uteis:
             print("O dado será inserido")
             for item in dados:
                 resultado = tratar(item)
-                resultado.to_sql(name="copia_dados_debenture", con=engine,
+                resultado.to_sql(name="dados_debenture", con=engine,
                                  if_exists="append", index=False)
 
         else:

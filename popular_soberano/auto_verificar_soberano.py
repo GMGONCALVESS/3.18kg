@@ -16,7 +16,6 @@ def verificar(engine, data_atual):
         conexao.commit()
     # print(resultado)
     # print(type(resultado))
-    
 
     ano_atual, mes_atual, dia_atual = tuple(data_atual.split("-"))
     ano_atual = int(ano_atual)
@@ -32,7 +31,18 @@ def verificar(engine, data_atual):
         print("Primeira Inserção")
         return True
 
-    if (dia_atual <= dia_bd):
-        return False
+    if (ano_atual >= ano_bd and mes_atual >= mes_bd):
+        if (dia_atual > dia_bd):
+            return True
+        else:
+            if(ano_atual>ano_bd):
+                return True
+            elif(ano_atual==ano_bd):
+                if(mes_atual>mes_bd):
+                    return True
+                else:
+                    return False
+            else:
+                return False
     else:
-        return True
+        return False

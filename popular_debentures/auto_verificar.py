@@ -25,7 +25,22 @@ def verificar(engine, data_atual):
     mes_atual = int(mes_atual)
     dia_atual = int(dia_atual)
 
-    if(dia_atual <= dia_bd):
-        return False
+    # if(dia_atual <= dia_bd):
+    #     return False
+    # else:
+    #     return True
+    if (ano_atual >= ano_bd and mes_atual >= mes_bd):
+        if (dia_atual > dia_bd):
+            return True
+        else:
+            if (ano_atual > ano_bd):
+                return True
+            elif (ano_atual == ano_bd):
+                if (mes_atual > mes_bd):
+                    return True
+                else:
+                    return False
+            else:
+                return False
     else:
-        return True
+        return False
