@@ -33,6 +33,11 @@ print(ticker_empresa)
 print(len(ticker_empresa))
 
 
+
+# realizar um codigo que analisa se os ticker recebidos no pbi_plot
+# nao está presente no banco de setores
+
+
 #Setor: ["Bens Industriais",
 # "Outros",
 # "Materiais Básicos",

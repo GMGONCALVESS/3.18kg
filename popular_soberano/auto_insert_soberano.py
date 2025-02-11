@@ -38,7 +38,7 @@ dia_atual = int(dia_atual)
 datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
-# data_atual = "2025-02-04"
+# data_atual = "2025-02-07"
 # Se a data atual estiver na lista de dias uteis
 if data_atual in datas_uteis:
     # for data_atual in datas_uteis:
