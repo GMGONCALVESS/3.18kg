@@ -9,11 +9,19 @@ from auto_verificar_soberano import verificar
 from auto_api_soberano import conexao_func
 from auto_dias_soberano import cria_calendario
 from datetime import datetime
+import sqlalchemy
 from sqlalchemy import create_engine, text
 import time
 import csv
+import sys
 import json
+import numpy as np
 import pandas as pd
+
+# print("Python Version:", sys.version)
+# print("Numpy Version:", np.__version__)
+# print("Pandas Version:", pd.__version__)
+# print("SQLAlchemy Version:", sqlalchemy.__version__)
 
 
 # Cria conexão com o banco de dados
@@ -38,7 +46,7 @@ dia_atual = int(dia_atual)
 datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
-# data_atual = "2025-02-07"
+data_atual = "2025-02-10"
 # Se a data atual estiver na lista de dias uteis
 if data_atual in datas_uteis:
     # for data_atual in datas_uteis:
@@ -56,6 +64,7 @@ if data_atual in datas_uteis:
 
             print("O dado será inserido")
             for item in dados:
+                # no quant esta realizada a tratativa do resultado
                 resultado = tratar(item, data_atual)
                 print(resultado)
                 resultado.to_sql(name="curvas_juros", con=engine,
