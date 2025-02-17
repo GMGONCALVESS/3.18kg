@@ -18,10 +18,10 @@ import json
 import numpy as np
 import pandas as pd
 
-# print("Python Version:", sys.version)
-# print("Numpy Version:", np.__version__)
-# print("Pandas Version:", pd.__version__)
-# print("SQLAlchemy Version:", sqlalchemy.__version__)
+print("Python Version:", sys.version)
+print("Numpy Version:", np.__version__)
+print("Pandas Version:", pd.__version__)
+print("SQLAlchemy Version:", sqlalchemy.__version__)
 
 
 # Cria conexão com o banco de dados
@@ -46,7 +46,7 @@ dia_atual = int(dia_atual)
 datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
-data_atual = "2025-02-10"
+# data_atual = "2025-02-14"
 # Se a data atual estiver na lista de dias uteis
 if data_atual in datas_uteis:
     # for data_atual in datas_uteis:
@@ -66,7 +66,7 @@ if data_atual in datas_uteis:
             for item in dados:
                 # no quant esta realizada a tratativa do resultado
                 resultado = tratar(item, data_atual)
-                print(resultado)
+                print(type(resultado["maturity"][0][0]))
                 resultado.to_sql(name="curvas_juros", con=engine,
                                  if_exists="append", index=False)
 

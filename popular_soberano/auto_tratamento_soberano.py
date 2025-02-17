@@ -14,10 +14,10 @@ def tratar(item, data_atual):
         implicita = []
         # dados_limpos = dados.dropna()
         for index, row in dados.iterrows():
-            maturity.append(row['vertice_du']/252)
-            pre.append(row['taxa_prefixadas'])
-            ipca.append(row['taxa_ipca'])
-            implicita.append(row['taxa_implicita'])
+            maturity.append(float(row['vertice_du']/252))
+            pre.append(float(row['taxa_prefixadas']))
+            ipca.append(float(row['taxa_ipca']))
+            implicita.append(float(row['taxa_implicita']))
 
         # print(insert_query)
 

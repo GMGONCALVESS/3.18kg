@@ -22,6 +22,7 @@ engine = create_engine(
 
 data_atual = str(datetime.now()).split(" ")[0]
 
+data_atual = "2025-02-12"
 # print(data_atual)
 
 ano_atual, mes_atual, dia_atual = tuple(data_atual.split("-"))
@@ -37,10 +38,11 @@ datas = data = cria_calendario(ano_atual)
 
 datas_uteis = [d.strftime("%Y-%m-%d") for d in datas]
 
-data_atual = "2025-01-31"
-
+# data_atual = "2025-01-31"
+# datas_atuais = ["2025-02-04","2025-02-05","2025-02-06","2025-02-07","2025-02-08","2025-02-09","2025-02-10","2025-02-11","2025-02-12"]
 # print(datas_apenas)
 
+# for data_atual in datas_atuais:
 # Se a data atual estiver na lista de dias uteis
 if data_atual in datas_uteis:
 
@@ -81,7 +83,8 @@ if data_atual in datas_uteis:
             #         })
 
             #     conexao.commit()
-                resultado.to_sql(name="dados_debenture", con=engine, if_exists="append", index=False)
+                resultado.to_sql(name="dados_debenture",
+                                 con=engine, if_exists="append", index=False)
         else:
             print("O dado já foi inserido")
     else:

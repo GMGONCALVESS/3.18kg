@@ -7,7 +7,7 @@ def verificar(engine, data_atual):
 
     # Realizar uma query para pegar a data mais recente
     data_query = text(""" 
-    SELECT MAX(data_referencia) AS data_mais_recente FROM copia_dados_debenture;
+    SELECT MAX(data_referencia) AS data_mais_recente FROM dados_debenture;
 """)
 
     with engine.connect() as conexao:
