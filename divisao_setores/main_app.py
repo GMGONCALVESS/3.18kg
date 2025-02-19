@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from receber_codigos import codigos
 
+
 nao_associados = codigos()
 
 # print(nao_associados)
@@ -23,7 +24,8 @@ for item in nao_associados:
     try:
         # if emissor["emissor_clean"].dropna().iloc[0] == "":
         #     continue
-        empresa = emissor["emissor_clean"].dropna().loc[emissor["emissor_clean"] != ""].iloc[0]
+        empresa = emissor["emissor_clean"].dropna(
+        ).loc[emissor["emissor_clean"] != ""].iloc[0]
         ticker_empresa[item] = empresa
         # print(type(emissor["emissor_clean"].dropna().iloc[0]))
     except:
@@ -33,12 +35,11 @@ print(ticker_empresa)
 print(len(ticker_empresa))
 
 
-
 # realizar um codigo que analisa se os ticker recebidos no pbi_plot
 # nao está presente no banco de setores
 
 
-#Setor: ["Bens Industriais",
+# Setor: ["Bens Industriais",
 # "Outros",
 # "Materiais Básicos",
 # "Títulos Públicos",
@@ -52,7 +53,7 @@ print(len(ticker_empresa))
 # "Saúde",
 # "Utilidade Pública"]
 
-#Subsetor
+# Subsetor
 # "Agropecuária"
 # "Água e Saneamento"
 # "Exploração de Imóveis"
@@ -101,7 +102,7 @@ print(len(ticker_empresa))
 # "Materiais Diversos"
 # "Máquinas e Equipamentos"
 
-#Segmento
+# Segmento
 # "Exploração de Imóveis"
 # "Hotelaria"
 # "Serviços Educacionais"
