@@ -58,14 +58,15 @@ engine1 = create_engine(
 #     "SELECT * FROM curvas_juros ORDER BY data_referencia DESC", engine1)
 
 di_df = pd.read_excel('curvadi_1902.xlsx')
-maturity = di_df['Dias Corridos'].tolist()
-pre = di_df['DI x pré'].tolist()
+maturity = di_df['tenor'].tolist()
+pre = di_df['bid_yield'].tolist()
 # print(maturity)
 # print(pre)
-
-dados_gerais = pd.read_sql("""select codigo_ativo, taxa_indicativa, data_referencia 
+codigo_ticker = 'BSA317'
+quantidade = 8000
+dados_gerais = pd.read_sql(f"""select codigo_ativo, taxa_indicativa, data_referencia 
 from dados_debenture 
-where codigo_ativo = 'AALM12' and data_referencia = '2025-02-18'""", engine1)
+where codigo_ativo = '{codigo_ticker}' and data_referencia = '2025-02-20'""", engine1)
 
 # pre = di_df.iloc[0]['pre']
 # maturity = di_df.iloc[0]['maturity']
@@ -83,19 +84,21 @@ where codigo_ativo = 'AALM12' and data_referencia = '2025-02-18'""", engine1)
 engine2 = create_engine(
     "postgresql://postgres:admin@192.168.88.61:5432/posicoesdb")
 data_atual = str(datetime.now()).split(" ")[0]
-data_atual = "2025-02-18"
+data_atual = "2025-02-20"
 ano = datetime.strptime(data_atual, "%Y-%m-%d").year
 
 # PUXAR O TIPO DE EVENTO
 
 dados = pd.read_sql(
-    "SELECT data_evento, percentual_taxa, pu, cdi, days, evento, valor_recebido, juros_pagos FROM eventos_debenture_cdi WHERE codigo_ticker = 'AALM12' ORDER BY data_liquidacao DESC", engine2)
+    f"SELECT data_evento, percentual_taxa, pu, cdi, days, evento, valor_recebido, juros_pagos FROM cp_eventos_debenture_di WHERE codigo_ticker = '{codigo_ticker}' ORDER BY data_liquidacao DESC", engine2)
 
 dia_evento = dados['data_evento'].tolist()
 dia_evento = [str(d).split(" ")[0] for d in dia_evento]
 
 # pu = dados['pu'].tolist()
-juros_pagos = dados['juros_pagos'].tolist()
+juros_pagos = dados['valor_recebido'].tolist()
+
+juros_pagos = [x/quantidade for x in juros_pagos]
 
 ano_ult_event = datetime.strptime(dia_evento[0], "%Y-%m-%d").year
 
@@ -119,7 +122,10 @@ for item in dia_evento:
 
     data_alvo = datetime.strptime(item, '%Y-%m-%d')
     # print(indice_fim - indice_atual)
-    dias_vencimento.append(get_busdays(data_atual, data_alvo))
+    retorno = get_busdays(data_atual, data_alvo)
+    if retorno > 0:
+        # print(retorno)
+        dias_vencimento.append(retorno)
 
 print(dias_vencimento)
 

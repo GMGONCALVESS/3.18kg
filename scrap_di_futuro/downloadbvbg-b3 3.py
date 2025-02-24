@@ -155,31 +155,41 @@ custom_business_day = CustomBusinessDay(calendar=CustomBusinessCalendar())
 # Pega última data disponível
 latest_date = pd.to_datetime('2025-02-18')  # get_latest_date()
 
+
 # print(type(latest_date))
 
 if latest_date != 'Dia não pode ser calculado ainda':
     # Abre o link da B3
-    open_link('https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/consultas/mercado-de-derivativos/precos-referenciais/taxas-referenciais-bm-fbovespa/')
-    # Clicka na data
-    # click_button('//*[@id="cabecalho"]/div[2]/a')
-    # Preenche a data
-    # Wait for the element to be present in the DOM
-    # WebDriverWait(driver, 10).until(
-    #     EC.presence_of_element_located((By.XPATH, '//*[@id="Data1"]'))
-    # )
-
-    # # Set the value using JavaScript
-    # driver.execute_script("document.getElementById('Data').value = arguments[0];",
-    #                       latest_date.strftime('%d/%m/%Y'))
-
-    elemento = get_element('//*[@id="tb_principal1"]')
+    # open_link('https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/consultas/mercado-de-derivativos/precos-referenciais/taxas-referenciais-bm-fbovespa/')
+    
+    open_link('https://www2.bmf.com.br/pages/portal/bmfbovespa/lumis/lum-taxas-referenciais-bmf-ptBR.asp')
+    elemento = get_element('//*[@id="Data"]')
     print(elemento)
-    # fill_input('//*[@id="Data"]',
-    #          latest_date.strftime('%d/%m/%Y'))
+    fill_input('//*[@id="Data"]', '18/02/2025')
 
-    # Clicka em download
-    # click_button(
-    #     '//*[@id="divContainerIframeBmf"]/form/div/div/div[1]/div[2]/div/div[2]/button')
+    click_button('//*[@id="divContainerIframeBmf"]/form/div/div/div[1]/div[2]/div/div[2]/button')
 
+    elemento = get_text('//*[@id="tb_principal1"]/tbody')
+    elemento = elemento.strip()
+    linha = str()
+    linhas = list()
+    for item in elemento:
+        if item == '\n':
+            # print(linha)
+            linhas.append(linha)
+            linha = str()
+            continue
+        linha = linha + item
+    # print(linhas)
+    tenor = list()
+    cdi = list()
+    for dados in linhas:
+        x = dados.split(" ")
+        tenor.append(float(x[0].replace(",",".")))
+        cdi.append(float(x[1].replace(",",".")))
+          
+    df = pd.DataFrame({'data_referencia': latest_date, "tenor": [tenor], "bid_yield":[cdi]})
+
+    df.to_sql("di_futuro", con=engine, if_exists="append", index=False)
 else:
     print('Dia não pode ser calculado ainda')
