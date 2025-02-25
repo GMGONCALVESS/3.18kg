@@ -62,8 +62,8 @@ maturity = di_df['tenor'].tolist()
 pre = di_df['bid_yield'].tolist()
 # print(maturity)
 # print(pre)
-codigo_ticker = 'BSA317'
-quantidade = 8000
+codigo_ticker = 'AEGE17'
+quantidade = 5000
 dados_gerais = pd.read_sql(f"""select codigo_ativo, taxa_indicativa, data_referencia 
 from dados_debenture 
 where codigo_ativo = '{codigo_ticker}' and data_referencia = '2025-02-20'""", engine1)
@@ -136,11 +136,23 @@ for item in dias_vencimento:
             x2 = dias
             i1 = maturity.index(x2)
             x1 = maturity[i1-1]
+            try:
+                xp = maturity[i1+1]
+            except:
+                xp = x2
             y2 = pre[i1]
             y1 = pre[i1-1]
             m = (y2-y1)/(x2-x1)
             b = y1-m*x1
-            taxas_dias.append(m*item+b)
+
+            part1 = (1 + y1 / 100)
+            part2 = (1 + y2 / 100) / (1 + y1 / 100)
+            exponent = (x2 - x1) / (xp - x1)
+
+            result = ((part1 * (part2 ** exponent)) - 1) * 100
+
+            # taxas_dias.append(m*item+b)
+            taxas_dias.append(result)
             break
 
 # print(taxas_dias)

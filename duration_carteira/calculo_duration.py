@@ -30,27 +30,19 @@ for year in range(ano, ano_ult_event+1):
 
 print(datas_uteis)
 indice_ref = datas_uteis.index(data_atual)
-num=den=0
+num = den = 0
 i = 0
 for d in range(0, len(dia_evento)):
     if dia_evento[d] in datas_uteis:
         print(dia_evento[d])
-        indice_final = datas_uteis.index(dia_evento[d]) 
+        indice_final = datas_uteis.index(dia_evento[d])
         # print(indice_final-indice_ref, pu[i])
         num = num + pu[i]*(indice_final-indice_ref)
         den = den + pu[i]
-        i+=1
+        i += 1
     else:
-        
-        
-print(num/den)
 
-
-
-
-
-
-
+        print(num/den)
 
 
 # pu = dados['pu'].tolist()

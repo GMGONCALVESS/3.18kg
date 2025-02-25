@@ -43,7 +43,6 @@ class CustomBusinessCalendar(AbstractHolidayCalendar):
     rules = [Holiday('Brazil Holiday', month=date.month,
                      day=date.day, year=date.year) for date in holidays()]
 
-
 def get_busdays(start_date, end_date):
     # Cria calendário de dias úteis
     custom_business_day = CustomBusinessDay(calendar=CustomBusinessCalendar())
