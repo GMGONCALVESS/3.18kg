@@ -68,6 +68,10 @@ dados_gerais = pd.read_sql(f"""select codigo_ativo, taxa_indicativa, data_refere
 from dados_debenture 
 where codigo_ativo = '{codigo_ticker}' and data_referencia = '2025-02-20'""", engine1)
 
+spread = dados_gerais.loc[0, 'taxa_indicativa']  # taxa_atual
+print(f'spread:{spread}')
+print(type(spread))
+
 # pre = di_df.iloc[0]['pre']
 # maturity = di_df.iloc[0]['maturity']
 
@@ -159,9 +163,10 @@ for item in dias_vencimento:
 # print(dias_vencimento)
 
 taxa_atual = float(dados_gerais.loc[0]['taxa_indicativa'])
+# spread = 1.6
 
 di_ano_atual = 13.15
-spread = 1.6  # taxa_atual
+
 PV_CF = list()
 for i in range(0, len(taxas_dias)):
     spread_diario = (1+spread/100)**(1/252)
@@ -177,3 +182,4 @@ for i in range(0, len(taxas_dias)):
     soma_num = soma_num + PV_CF[i]*dias_vencimento[i]
 
 print(soma_num/sum(PV_CF))
+print(round(soma_num/sum(PV_CF)))
